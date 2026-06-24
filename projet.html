@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projet — Jade®</title>
+<meta name="description" content="" id="metaDesc" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Marked.js pour le rendu Markdown du champ "body" -->
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+
+<style>
+  :root{
+    --bg:#0A0A0A;--bg-2:#0F0F0F;--text:#EFEEEC;--muted:#86857F;--faint:#56554F;
+    --line:rgba(255,255,255,.10);--line-2:rgba(255,255,255,.20);
+    --maxw:1480px;--gutter:clamp(20px,4vw,56px);
+    --sans:"Geist",system-ui,-apple-system,sans-serif;
+    --mono:"Geist Mono",ui-monospace,monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.5;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img,video{display:block;max-width:100%}
+  ::selection{background:var(--text);color:var(--bg)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .mono{font-family:var(--mono)}
+  .paren{color:var(--faint)}
+  .brk{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text);transition:color .3s}
+  .brk::before{content:"(";color:var(--muted);margin-right:.8ch;transition:margin .4s var(--ease),color .3s}
+  .brk::after{content:")";color:var(--muted);margin-left:.8ch;transition:margin .4s var(--ease),color .3s}
+  .brk:hover::before{margin-right:1.5ch;color:var(--text)}
+  .brk:hover::after{margin-left:1.5ch;color:var(--text)}
+  .mlabel{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+
+  /* ── NAV ── */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s var(--ease),border-color .4s}
+  header.scrolled{background:rgba(10,10,10,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{font-size:1.15rem;font-weight:600;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:.5em}
+  .brand .mark{width:13px;height:13px;border:1.5px solid var(--text);border-radius:50%}
+  .brand sup{font-size:.55em;font-weight:400;top:-.8em;color:var(--muted)}
+  .nav-links{display:flex;align-items:center;gap:2rem;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+  .nav-links a{color:var(--muted);transition:.25s}
+  .nav-links a:hover{color:var(--text)}
+  .menu-btn{display:none;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;background:none;border:0;color:var(--text);cursor:pointer;padding:8px 0}
+  .mobile-menu{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:.2rem;padding:var(--gutter);transform:translateY(-100%);transition:transform .55s var(--ease);visibility:hidden}
+  .mobile-menu.open{transform:none;visibility:visible}
+  .mobile-menu a{font-size:clamp(2.4rem,12vw,4rem);font-weight:500;letter-spacing:-.03em;padding:.18em 0;border-bottom:1px solid var(--line)}
+  .mobile-menu .mclose{align-self:flex-end;font-family:var(--mono);font-size:.76rem;text-transform:uppercase;color:var(--muted);background:none;border:0;cursor:pointer;margin-bottom:1.6rem}
+
+  /* ── HERO PROJET ── */
+  .proj-hero{
+    padding-top:70px;min-height:70vh;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    position:relative;overflow:hidden;
+  }
+  .proj-hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:var(--bg-2);background-size:cover;background-position:center;
+    transition:transform .9s var(--ease);
+  }
+  .proj-hero:hover .proj-hero-bg{transform:scale(1.02)}
+  .proj-hero-bg::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to bottom,rgba(10,10,10,.1) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.97) 100%);
+  }
+  .proj-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .proj-hero-inner{
+    position:relative;z-index:2;
+    padding:clamp(40px,7vh,80px) 0;
+  }
+  .proj-back{display:inline-flex;align-items:center;gap:.7em;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:2.4rem;transition:.25s}
+  .proj-back:hover{color:var(--text)}
+  .proj-back::before{content:"←";transition:transform .3s var(--ease)}
+  .proj-back:hover::before{transform:translateX(-4px)}
+  .proj-cat{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1rem}
+  .proj-title{font-size:clamp(2.8rem,9vw,7.5rem);font-weight:500;letter-spacing:-.045em;line-height:.88;margin-bottom:.6em}
+  .proj-tagline{font-size:clamp(1rem,1.8vw,1.3rem);color:var(--muted);max-width:52ch;line-height:1.4;font-weight:300}
+
+  /* ── META STRIP ── */
+  .meta-strip{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding-block:clamp(24px,3.5vh,36px);
+    display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);
+    margin-top:clamp(32px,5vh,56px);
+  }
+  .meta-item{}
+  .meta-item .k{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:.5rem}
+  .meta-item .v{font-size:.96rem;color:var(--text)}
+
+  /* ── BODY TEXTE ── */
+  .proj-body{
+    padding-block:clamp(56px,9vh,110px);
+    max-width:72ch;
+  }
+  .proj-body h2,.proj-body h3{font-weight:500;letter-spacing:-.02em;margin:2em 0 .8em}
+  .proj-body h2{font-size:clamp(1.4rem,2.8vw,2rem)}
+  .proj-body h3{font-size:clamp(1.1rem,2vw,1.4rem)}
+  .proj-body p{color:var(--muted);font-size:1.05rem;line-height:1.7;margin-bottom:1.2em}
+  .proj-body strong{color:var(--text);font-weight:500}
+  .proj-body ul,.proj-body ol{color:var(--muted);padding-left:1.4em;margin-bottom:1.2em}
+  .proj-body li{font-size:1.05rem;line-height:1.7;margin-bottom:.4em}
+  .proj-body a{border-bottom:1px solid var(--line-2);transition:.25s}
+  .proj-body a:hover{border-color:var(--text);color:var(--text)}
+
+  /* ── GALERIE ── */
+  .galerie{padding-bottom:clamp(60px,9vh,120px)}
+  .galerie-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(24px,3.5vh,40px);border-top:1px solid var(--line);padding-top:1.4rem}
+  .galerie-grid{display:grid;gap:clamp(10px,1.4vw,18px)}
+  /* layout : 1re image pleine largeur, puis 2 colonnes */
+  .galerie-grid .g-full{grid-column:1/-1;aspect-ratio:16/9}
+  .galerie-grid .g-half{aspect-ratio:4/3}
+  @media(min-width:680px){.galerie-grid{grid-template-columns:1fr 1fr}}
+  .g-item{border-radius:3px;overflow:hidden;border:1px solid var(--line);background:var(--bg-2);position:relative}
+  .g-item img,.g-item video{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease);display:block}
+  .g-item:hover img,.g-item:hover video{transform:scale(1.03)}
+
+  /* ── LIEN EXTERNE ── */
+  .proj-link{margin-bottom:clamp(48px,7vh,80px)}
+
+  /* ── NAV PREV/NEXT ── */
+  .proj-nav{
+    border-top:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 1fr;
+  }
+  .pn-item{
+    padding:clamp(28px,4vh,48px) 0;
+    display:flex;flex-direction:column;gap:.7rem;
+    transition:background .3s;
+  }
+  .pn-item:first-child{border-right:1px solid var(--line);padding-right:clamp(16px,2vw,32px)}
+  .pn-item:last-child{text-align:right;padding-left:clamp(16px,2vw,32px)}
+  .pn-item:hover{background:rgba(255,255,255,.02)}
+  .pn-dir{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+  .pn-title{font-size:clamp(1rem,2.2vw,1.5rem);font-weight:400;letter-spacing:-.015em;transition:color .25s}
+  .pn-item:hover .pn-title{color:var(--muted)}
+  .pn-empty{display:flex;align-items:center;justify-content:center;color:var(--faint);font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+
+  /* ── FOOTER ── */
+  footer{border-top:1px solid var(--line);padding-block:28px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+  .foot a:hover{color:var(--text)}
+
+  /* ── LOADING STATE ── */
+  .loading{min-height:60vh;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.78rem;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--text);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header id="top">
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="mark"></span>Jade<sup>®</sup></a>
+    <nav class="nav-links">
+      <a href="index.html#work">Projets</a>
+      <a href="index.html#about">À propos</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mclose" id="menuClose">Fermer ✕</button>
+  <a href="index.html#work">Projets</a>
+  <a href="index.html#about">À propos</a>
+  <a href="index.html#contact">Contact</a>
+</div>
+
+<!-- ── CONTENU DYNAMIQUE ── -->
+<main id="main"><div class="loading">Chargement du projet…</div></main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap foot">
+    <span>Jade® — Paris</span>
+    <a href="#top" class="mid" style="color:var(--muted)">Retour en haut ↑</a>
+    <span>©<span id="year"></span></span>
+  </div>
+</footer>
+
+<script>
+/* =============================================================
+   PAGE PROJET — chargement dynamique
+   URL attendue : projet.html?id=nom-du-slug
+============================================================= */
+const CATEGORIES={motion:{label:"Motion",hue:32},ecommerce:{label:"E-commerce",hue:200},branding:{label:"Branding",hue:280},packaging:{label:"Packaging",hue:150},web:{label:"Web",hue:220},edition:{label:"Édition",hue:12}};
+const slug=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+function phBg(h){return `radial-gradient(120% 90% at 70% 20%,hsla(${h},48%,52%,.55),transparent 55%),radial-gradient(80% 70% at 15% 90%,hsla(${(h+45)%360},42%,42%,.40),transparent 60%),linear-gradient(160deg,hsl(${h},20%,14%),#0A0A0A)`;}
+
+/* ── Charge tous les projets depuis le manifest CMS ── */
+async function loadAll(){
+  try{
+    const manifest=await fetch('_data/projets/manifest.json').then(r=>r.ok?r.json():null);
+    if(manifest&&manifest.length){
+      const all=await Promise.all(manifest.map(f=>fetch('_data/projets/'+f).then(r=>r.ok?r.json():null)));
+      return all.filter(Boolean).sort((a,b)=>(a.ordre||99)-(b.ordre||99));
+    }
+  }catch(e){}
+  /* démo fallback */
+  return [
+    {title:"PAIC — Spot motion",client:"Henkel",year:"2024",cat:"motion",img:"",video:"",tagline:"Campagne motion pour le lancement du produit.",body:"**Contexte**\n\nSpot de lancement animé pour la marque PAIC (Henkel). Direction artistique complète, storyboard et animation After Effects.\n\n**Résultat**\n\nDiffusé sur les réseaux sociaux et en affichage digital.",role:"Direction artistique, motion design",outils:"After Effects, Illustrator, Premiere Pro",galerie:[]},
+    {title:"Brand Store",client:"Acer",year:"2023",cat:"ecommerce",img:"",video:"",tagline:"Refonte complète du Brand Store Amazon Acer.",body:"Conception et intégration du Brand Store Amazon pour la gamme gaming Acer. Architecture de l'information, direction artistique des visuels et production des modules A+.",role:"Direction artistique, production e-commerce",outils:"Photoshop, Illustrator, Amazon Seller Central",galerie:[]},
+    {title:"Contenu A+ Premium",client:"Acer",year:"2023",cat:"ecommerce",img:"",video:"",tagline:"Modules A+ Premium pour les fiches produits gaming.",body:"",role:"Direction artistique",outils:"Photoshop, Figma",galerie:[]},
+    {title:"Identité visuelle",client:"Studio ALIAS",year:"2024",cat:"branding",img:"",video:"",tagline:"Identité complète pour un studio créatif indépendant.",body:"",role:"Direction artistique, brand design",outils:"Figma, Illustrator",galerie:[]},
+    {title:"Sponsored Brand Video",client:"Marque B.",year:"2023",cat:"motion",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Refonte packaging",client:"Marque C.",year:"2022",cat:"packaging",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Direction artistique web",client:"Projet perso",year:"2025",cat:"web",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Campagne print",client:"Marque D.",year:"2022",cat:"edition",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Stories animées",client:"Projet perso",year:"2025",cat:"motion",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Système de marque",client:"Marque E.",year:"2024",cat:"branding",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Visuels produit",client:"Marque F.",year:"2023",cat:"ecommerce",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+    {title:"Affiche & édition",client:"Projet perso",year:"2024",cat:"edition",img:"",video:"",tagline:"",body:"",role:"",outils:"",galerie:[]},
+  ];
+}
+
+/* ── Construit le HTML de la page ── */
+function buildPage(p, all){
+  const c=CATEGORIES[p.cat]||{label:p.cat,hue:30};
+  const idx=all.findIndex(x=>slug(x.title)===slug(p.title));
+  const prev=all[idx-1]||null;
+  const next=all[idx+1]||null;
+
+  /* hero bg */
+  const heroBg = p.img
+    ? `background-image:url('${p.img}');background-color:var(--bg-2)`
+    : `background:${phBg(c.hue)}`;
+
+  /* vidéo hero */
+  const heroVideo = p.video
+    ? `<video autoplay muted loop playsinline><source src="${p.video}" type="video/mp4"></video>`
+    : '';
+
+  /* meta strip items */
+  const metas=[
+    {k:"Client",        v:p.client},
+    {k:"Année",         v:p.year},
+    {k:"Catégorie",     v:c.label},
+    p.role   && {k:"Rôle",    v:p.role},
+    p.outils && {k:"Outils",  v:p.outils},
+  ].filter(Boolean);
+
+  /* body markdown */
+  const bodyHTML = p.body
+    ? `<div class="proj-body wrap reveal">${marked.parse(p.body)}</div>`
+    : '';
+
+  /* galerie */
+  let galerieHTML='';
+  if(p.galerie && p.galerie.length){
+    const items=p.galerie.map((src,i)=>{
+      const cls=i===0?'g-item g-full':'g-item g-half';
+      return `<div class="${cls}"><img src="${src}" alt="" loading="lazy"></div>`;
+    }).join('');
+    galerieHTML=`
+    <div class="galerie wrap">
+      <div class="galerie-head">
+        <span class="mlabel"><span class="paren">(</span> Visuels du projet <span class="paren">)</span></span>
+        <span class="mlabel"><span class="paren">(</span> ${String(p.galerie.length).padStart(2,'0')} <span class="paren">)</span></span>
+      </div>
+      <div class="galerie-grid">${items}</div>
+    </div>`;
+  }
+
+  /* lien externe */
+  const lienHTML = p.lien
+    ? `<div class="proj-link wrap"><a href="${p.lien}" target="_blank" rel="noopener" class="brk">Voir le projet en ligne ↗</a></div>`
+    : '';
+
+  /* nav prev/next */
+  const prevHTML = prev
+    ? `<a class="pn-item" href="projet.html?id=${slug(prev.title)}">
+        <span class="pn-dir">← Projet précédent</span>
+        <span class="pn-title">${prev.title}</span>
+        <span class="mlabel">${prev.client} · ${prev.year}</span>
+       </a>`
+    : `<div class="pn-item pn-empty"><a href="index.html#work" class="brk">Tous les projets</a></div>`;
+
+  const nextHTML = next
+    ? `<a class="pn-item" href="projet.html?id=${slug(next.title)}">
+        <span class="pn-dir">Projet suivant →</span>
+        <span class="pn-title">${next.title}</span>
+        <span class="mlabel">${next.client} · ${next.year}</span>
+       </a>`
+    : `<div class="pn-item pn-empty"><a href="index.html#work" class="brk">Tous les projets</a></div>`;
+
+  return `
+  <!-- HERO -->
+  <section class="proj-hero">
+    <div class="proj-hero-bg" style="${heroBg}"></div>
+    ${heroVideo}
+    <div class="wrap proj-hero-inner">
+      <a href="index.html#work" class="proj-back">Retour aux projets</a>
+      <p class="proj-cat"><span class="paren">(</span> ${c.label} · ${p.year} <span class="paren">)</span></p>
+      <h1 class="proj-title">${p.title}</h1>
+      ${p.tagline?`<p class="proj-tagline">${p.tagline}</p>`:''}
+    </div>
+  </section>
+
+  <!-- META -->
+  <div class="wrap">
+    <div class="meta-strip">
+      ${metas.map(m=>`<div class="meta-item"><div class="k">${m.k}</div><div class="v">${m.v}</div></div>`).join('')}
+    </div>
+  </div>
+
+  <!-- BODY -->
+  ${bodyHTML}
+
+  <!-- GALERIE -->
+  ${galerieHTML}
+
+  <!-- LIEN EXTERNE -->
+  ${lienHTML}
+
+  <!-- PREV / NEXT -->
+  <div class="wrap">
+    <nav class="proj-nav" aria-label="Navigation entre projets">
+      ${prevHTML}
+      ${nextHTML}
+    </nav>
+  </div>`;
+}
+
+/* ── Init ── */
+async function init(){
+  document.getElementById('year').textContent=new Date().getFullYear();
+
+  const params=new URLSearchParams(location.search);
+  const id=params.get('id');
+
+  const all=await loadAll();
+
+  /* find project */
+  const p = id
+    ? all.find(x=>slug(x.title)===id)
+    : all[0];
+
+  if(!p){
+    document.getElementById('main').innerHTML=`<div class="loading">Projet introuvable. <a href="index.html#work" style="border-bottom:1px solid var(--line-2)">Retour aux projets ↩</a></div>`;
+    return;
+  }
+
+  /* update head */
+  document.title=`${p.title} — Jade®`;
+  document.getElementById('metaDesc').content=p.tagline||p.title;
+
+  /* render */
+  document.getElementById('main').innerHTML=buildPage(p,all);
+
+  /* reveals */
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* nav */
+  const header=document.querySelector('header');
+  addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>40),{passive:true});
+  const mBtn=document.getElementById('menuBtn'),mMenu=document.getElementById('mobileMenu'),mClose=document.getElementById('menuClose');
+  const toggle=o=>{mMenu.classList.toggle('open',o);mBtn.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';};
+  mBtn.onclick=()=>toggle(true);mClose.onclick=()=>toggle(false);
+  mMenu.querySelectorAll('a').forEach(a=>a.onclick=()=>toggle(false));
+}
+
+init();
+</script>
+</body>
+</html>

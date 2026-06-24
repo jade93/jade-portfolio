@@ -1,0 +1,134 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/projets"
+public_folder: "images/projets"
+locale: fr
+
+collections:
+  # ── PROJETS ──────────────────────────────────────────────────
+  - name: "projets"
+    label: "Projets"
+    label_singular: "Projet"
+    folder: "_data/projets"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{client}} ({{year}})"
+    sortable_fields: ["year", "title", "ordre"]
+    fields:
+      - label: "Titre du projet"
+        name: "title"
+        widget: "string"
+        hint: "Ex : PAIC — Spot motion"
+
+      - label: "Client / Marque"
+        name: "client"
+        widget: "string"
+
+      - label: "Année"
+        name: "year"
+        widget: "string"
+
+      - label: "Catégorie"
+        name: "cat"
+        widget: "select"
+        options:
+          - { label: "Motion design",   value: "motion"    }
+          - { label: "E-commerce",      value: "ecommerce" }
+          - { label: "Branding",        value: "branding"  }
+          - { label: "Packaging",       value: "packaging" }
+          - { label: "Web design",      value: "web"       }
+          - { label: "Édition / Print", value: "edition"   }
+
+      - label: "Image de couverture"
+        name: "img"
+        widget: "image"
+        required: false
+        hint: "1600×1200px recommandé — JPG ou WebP"
+
+      - label: "Vidéo de couverture (optionnel)"
+        name: "video"
+        widget: "file"
+        required: false
+        hint: "MP4, max 20 Mo. Remplace l'image dans la grille."
+
+      - label: "Ordre d'affichage"
+        name: "ordre"
+        widget: "number"
+        default: 99
+        hint: "1 = affiché en premier dans la grille"
+
+      - label: "Mettre en avant dans le hero"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Les 3 premiers projets mis en avant apparaissent dans le bandeau"
+
+      # ── PAGE PROJET ─────────────────────────────────────────
+      - label: "Accroche courte"
+        name: "tagline"
+        widget: "string"
+        required: false
+        hint: "Une phrase percutante affichée sous le titre — Ex : Campagne motion pour le lancement produit"
+
+      - label: "Description complète"
+        name: "body"
+        widget: "markdown"
+        required: false
+        hint: "Texte de la page projet. Tu peux utiliser du gras, des listes, etc."
+
+      - label: "Rôle"
+        name: "role"
+        widget: "string"
+        required: false
+        hint: "Ex : Direction artistique, motion design, montage"
+
+      - label: "Outils utilisés"
+        name: "outils"
+        widget: "string"
+        required: false
+        hint: "Ex : After Effects, Midjourney, Figma"
+
+      - label: "Lien externe (Behance, YouTube…)"
+        name: "lien"
+        widget: "string"
+        required: false
+
+      - label: "Galerie d'images"
+        name: "galerie"
+        widget: "list"
+        required: false
+        hint: "Ajoute autant d'images que tu veux pour la page projet"
+        field:
+          label: "Image"
+          name: "img"
+          widget: "image"
+
+  # ── PARAMÈTRES DU SITE ───────────────────────────────────────
+  - name: "settings"
+    label: "Paramètres du site"
+    files:
+      - name: "general"
+        label: "Informations générales"
+        file: "_data/settings.json"
+        fields:
+          - { label: "Prénom",        name: "prenom",    widget: "string", default: "Jade"    }
+          - { label: "Nom",           name: "nom",       widget: "string", default: "Pacini"  }
+          - label: "Sous-titre hero"
+            name: "soustitre"
+            widget: "string"
+            default: "Directrice Artistique Senior · Motion Design & IA Générative · No-Code Product Builder"
+          - { label: "Email",         name: "email",     widget: "string", default: "bonjour@jade.studio" }
+          - { label: "LinkedIn",      name: "linkedin",  widget: "string", required: false }
+          - { label: "Instagram",     name: "instagram", widget: "string", required: false }
+          - { label: "Behance",       name: "behance",   widget: "string", required: false }
+          - label: "Texte intro"
+            name: "intro"
+            widget: "text"
+            default: "J'accompagne les marques et les équipes créatives qui font du design un avantage, pas une finition."
+          - label: "Bio (À propos)"
+            name: "bio"
+            widget: "text"
+            default: "Basée à Paris, j'ai construit mon œil en agence (Publicis, Dentsu) et en freelance. Certifiée niveau 6 en IA générative & no-code."

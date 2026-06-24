@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jade® — Directrice artistique</title>
+<meta name="description" content="Jade, directrice artistique à Paris. Motion design, e-commerce, branding et IA générative." />
+
+<!-- ============================================================
+     COMMENT MODIFIER CE SITE (lis-moi)
+     1. TES PROJETS → tableau "PROJETS" en bas du <script>.
+        Édite titre / client / année / catégorie / image.
+        Image : place le fichier dans /images/ puis img:"images/x.jpg".
+        Vidéo : utilise video:"images/x.mp4" (prioritaire sur img).
+        Laisse les deux vides "" pour un visuel auto.
+     2. TES TEXTES (hero, intro, à propos, FAQ, contact) → cherche
+        les blocs marqués  <!-- ÉDITABLE -->.
+     3. TES CHIFFRES (compteurs) → attribut data-target sur les .count.
+     4. PUBLIER → dépose le dossier sur Netlify / Vercel (drag & drop).
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0A0A0A;
+    --bg-2:#0F0F0F;
+    --text:#EFEEEC;
+    --muted:#86857F;
+    --faint:#56554F;
+    --line:rgba(255,255,255,.10);
+    --line-2:rgba(255,255,255,.20);
+    --maxw:1480px;
+    --gutter:clamp(20px,4vw,56px);
+    --sans:"Geist",system-ui,-apple-system,sans-serif;
+    --mono:"Geist Mono",ui-monospace,monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.45;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img,video{display:block;max-width:100%}
+  ::selection{background:var(--text);color:var(--bg)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+
+  /* mono micro-label, often wrapped in ( ) */
+  .mlabel{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .paren{color:var(--faint)}
+
+  /* signature: bracket link "( label )" with spreading parens */
+  .brk{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text);transition:color .3s}
+  .brk::before{content:"(";color:var(--muted);margin-right:.8ch;transition:margin .4s var(--ease),color .3s}
+  .brk::after{content:")";color:var(--muted);margin-left:.8ch;transition:margin .4s var(--ease),color .3s}
+  .brk:hover::before{margin-right:1.5ch;color:var(--text)}
+  .brk:hover::after{margin-left:1.5ch;color:var(--text)}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s var(--ease),border-color .4s var(--ease)}
+  header.scrolled{background:rgba(10,10,10,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:inline-flex;align-items:center;gap:.5em;font-size:1.15rem;font-weight:600;letter-spacing:-.02em}
+  .brand .mark{width:13px;height:13px;border:1.5px solid var(--text);border-radius:50%;display:inline-block}
+  .brand sup{font-size:.55em;font-weight:400;top:-.8em;color:var(--muted)}
+  .nav-links{display:flex;align-items:center;gap:2rem;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+  .nav-links a{color:var(--muted);transition:color .25s}
+  .nav-links a:hover,.nav-links a:focus-visible{color:var(--text)}
+  .menu-btn{display:none;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;background:none;border:0;color:var(--text);cursor:pointer;padding:8px 0}
+  .mobile-menu{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:.2rem;padding:var(--gutter);transform:translateY(-100%);transition:transform .55s var(--ease);visibility:hidden}
+  .mobile-menu.open{transform:none;visibility:visible}
+  .mobile-menu a{font-size:clamp(2.4rem,12vw,4rem);font-weight:500;letter-spacing:-.03em;padding:.18em 0;border-bottom:1px solid var(--line)}
+  .mobile-menu .mclose{align-self:flex-end;font-family:var(--mono);font-size:.76rem;text-transform:uppercase;color:var(--muted);background:none;border:0;cursor:pointer;margin-bottom:1.6rem}
+
+  /* ---------- HERO BANDEAU ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    overflow:hidden;
+  }
+
+  /* image plein écran */
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:url('images/hero.png') center 20% / cover no-repeat;
+    opacity:.3;
+    transform:scale(1.08);
+    will-change:opacity,transform;
+  }
+  /* overlay dégradé : haut transparent → bas très sombre */
+  .hero-bg::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(
+      to bottom,
+      rgba(10,10,10,.15)  0%,
+      rgba(10,10,10,.30) 38%,
+      rgba(10,10,10,.72) 68%,
+      rgba(10,10,10,.96) 100%
+    );
+  }
+  /* overlay latéral gauche pour respirer le texte */
+  .hero-bg::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to right,rgba(10,10,10,.55) 0%,transparent 60%);
+  }
+
+  /* état final de l'animation (JS ajoute .loaded) */
+  .hero-bg.loaded{
+    animation:heroBgIn 2.2s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  @keyframes heroBgIn{
+    from{opacity:.3;transform:scale(1.08)}
+    to  {opacity:1 ;transform:scale(1.00)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-bg.loaded{animation:none;opacity:1;transform:none}
+  }
+
+  /* contenu texte */
+  .hero-inner{
+    position:relative;z-index:2;
+    padding:0 0 clamp(48px,8vh,96px);
+  }
+  .hero-tag{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(239,238,236,.55);margin-bottom:1.6rem;
+    opacity:0;transform:translateY(18px);
+  }
+  .hero h1{
+    font-size:clamp(3.6rem,12vw,10.5rem);font-weight:600;
+    line-height:.88;letter-spacing:-.045em;
+    opacity:0;transform:translateY(28px);
+  }
+  .hero h1 span{display:block}
+  .hero h1 .last{color:rgba(239,238,236,.9)}
+  .hero-sub{
+    margin-top:1.6rem;
+    font-size:clamp(.88rem,1.3vw,1.05rem);font-weight:300;
+    color:rgba(239,238,236,.55);
+    letter-spacing:.01em;line-height:1.4;
+    max-width:54ch;
+    opacity:0;transform:translateY(20px);
+  }
+  .hero-cta{
+    margin-top:2.4rem;
+    opacity:0;transform:translateY(16px);
+  }
+  /* transitions gérées par JS via classe .anim */
+  .hero-tag,.hero h1,.hero-sub,.hero-cta{
+    transition:opacity .9s cubic-bezier(.22,.61,.36,1),
+               transform .9s cubic-bezier(.22,.61,.36,1);
+  }
+  .hero-tag.anim  {opacity:1;transform:none;transition-delay:.45s}
+  .hero h1.anim   {opacity:1;transform:none;transition-delay:.7s}
+  .hero-sub.anim  {opacity:1;transform:none;transition-delay:1s}
+  .hero-cta.anim  {opacity:1;transform:none;transition-delay:1.22s}
+  @media (prefers-reduced-motion:reduce){
+    .hero-tag,.hero h1,.hero-sub,.hero-cta{opacity:1;transform:none;transition:none}
+  }
+
+  /* scroll cue */
+  .scroll-cue{
+    position:absolute;right:var(--gutter);bottom:clamp(36px,5vh,60px);z-index:3;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(239,238,236,.35);writing-mode:vertical-rl;
+    opacity:0;transition:opacity 1s .4s;
+  }
+  .scroll-cue.anim{opacity:1}
+  @media(max-width:680px){.scroll-cue{display:none}}
+
+  /* featured – reste sous le bandeau */
+  .hero-below{padding-block:clamp(40px,6vh,72px)}
+  /* featured */
+  .featured{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,18px);margin-top:clamp(36px,6vh,64px)}
+  @media(max-width:760px){.featured{grid-template-columns:1fr 1fr}.featured a:nth-child(3){display:none}}
+  .feat .media{aspect-ratio:4/5;border-radius:3px;overflow:hidden;border:1px solid var(--line);position:relative;background:var(--bg-2)}
+  .feat .media .ph{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .9s var(--ease)}
+  .feat:hover .media .ph{transform:scale(1.05)}
+  .feat .cap{display:flex;justify-content:space-between;margin-top:.65rem;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+  .feat:hover .cap .path{color:var(--text)}
+
+  /* ---------- INTRO STATEMENT ---------- */
+  .intro{padding-block:clamp(90px,15vh,200px)}
+  .intro .mlabel{display:block;margin-bottom:2.6rem}
+  .intro h2{font-size:clamp(1.7rem,4.4vw,3.6rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;max-width:19ch}
+  .intro h2 em{font-style:normal;color:var(--muted)}
+
+  /* ---------- SECTION DIVIDER LABEL ---------- */
+  .sec-top{display:flex;justify-content:space-between;align-items:center;padding-top:clamp(36px,5vh,56px);padding-bottom:1.2rem;border-top:1px solid var(--line)}
+
+  /* ---------- SERVICES ---------- */
+  .svc-row{display:flex;align-items:center;gap:clamp(18px,4vw,56px);padding:clamp(22px,3.4vw,44px) 0;border-top:1px solid var(--line);transition:padding-left .4s var(--ease)}
+  .svc-row:last-child{border-bottom:1px solid var(--line)}
+  .svc-row .num{font-family:var(--mono);font-size:.78rem;color:var(--muted);width:2.6em;flex:none}
+  .svc-row h3{font-size:clamp(1.9rem,6.4vw,4.6rem);font-weight:400;letter-spacing:-.035em;line-height:.98;transition:color .3s}
+  .svc-row .desc{margin-left:auto;max-width:30ch;color:var(--muted);font-size:.9rem;text-align:right}
+  @media(max-width:760px){.svc-row .desc{display:none}}
+  @media(hover:hover){.svc-row:hover{padding-left:1.4rem}.svc-row:hover h3{color:var(--text)}}
+  .svc-preview{position:fixed;width:220px;aspect-ratio:4/5;border-radius:3px;overflow:hidden;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.92);transition:opacity .3s var(--ease),transform .3s var(--ease);z-index:50;border:1px solid var(--line-2)}
+  .svc-preview.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  @media(max-width:900px){.svc-preview{display:none}}
+
+  /* ---------- STATS ---------- */
+  .stats{padding-block:clamp(80px,12vh,160px);border-top:1px solid var(--line)}
+  .stats-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:clamp(44px,6vh,76px);gap:1.5rem;flex-wrap:wrap}
+  .stats-head h2{font-size:clamp(1.5rem,3.4vw,2.6rem);font-weight:400;letter-spacing:-.02em;max-width:18ch}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,44px)}
+  @media(max-width:880px){.stat-grid{grid-template-columns:1fr 1fr;gap:44px 20px}}
+  .stat{border-top:1px solid var(--line);padding-top:1.3rem}
+  .stat-n{font-size:clamp(3rem,7vw,5.8rem);font-weight:400;line-height:.86;letter-spacing:-.04em}
+  .stat-n .plus{color:var(--muted)}
+  .stat p{color:var(--muted);font-size:.88rem;margin-top:1.1rem;max-width:22ch}
+
+  /* ---------- WORK ---------- */
+  .work{padding-block:clamp(70px,10vh,130px);border-top:1px solid var(--line)}
+  .work-head{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+  .work-head h2{font-size:clamp(3rem,11vw,9rem);font-weight:500;letter-spacing:-.05em;line-height:.84}
+  .bigcount{display:flex;flex-direction:column;align-items:flex-end;font-size:clamp(2.6rem,8vw,7rem);font-weight:400;line-height:.82;letter-spacing:-.04em;color:var(--text)}
+  .bigcount .paren{color:var(--faint)}
+  .work-intro{max-width:40ch;color:var(--muted);font-size:1rem;line-height:1.5;margin-top:clamp(28px,4vh,44px)}
+  .filters{display:flex;flex-wrap:wrap;gap:1.4rem;margin:clamp(30px,4.5vh,48px) 0;font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+  .filt{background:none;border:0;color:var(--faint);cursor:pointer;font:inherit;padding:.2em 0;position:relative;transition:color .25s}
+  .filt:hover{color:var(--muted)}
+  .filt.active{color:var(--text)}
+  .filt.active::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--text)}
+
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(14px,2vw,28px)}
+  @media(max-width:680px){.work-grid{grid-template-columns:1fr}}
+  .work-item{display:block}
+  .work-media{position:relative;aspect-ratio:4/3;border-radius:3px;overflow:hidden;border:1px solid var(--line);background:var(--bg-2)}
+  .work-media .ph{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .9s var(--ease)}
+  .work-item:hover .ph{transform:scale(1.04)}
+  .work-media .corner{position:absolute;top:13px;right:15px;z-index:2;font-family:var(--mono);font-size:.68rem;text-transform:uppercase;color:var(--text);opacity:0;transform:translateY(-4px);transition:.35s var(--ease)}
+  .work-item:hover .corner{opacity:1;transform:none}
+  .work-foot{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding-top:.85rem;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+  .work-item:hover .work-foot .path{color:var(--text)}
+  .work-foot .yr{color:var(--faint)}
+  .work-title{font-size:1.1rem;font-weight:500;margin-top:.25rem;letter-spacing:-.015em}
+  .work-title span{color:var(--muted);font-weight:400}
+
+  /* ---------- ABOUT ---------- */
+  .about{padding-block:clamp(80px,12vh,160px);border-top:1px solid var(--line)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
+  @media(max-width:860px){.about-grid{grid-template-columns:1fr}}
+  .portrait{aspect-ratio:4/5;border-radius:3px;overflow:hidden;border:1px solid var(--line);position:relative;background:radial-gradient(120% 80% at 30% 20%,hsla(220,30%,40%,.25),transparent 55%),linear-gradient(160deg,#1a1a1c,#0A0A0A);background-size:cover;background-position:center}
+  .portrait .ph-l{position:absolute;left:16px;bottom:14px;font-family:var(--mono);font-size:.7rem;color:rgba(239,238,236,.45)}
+  .about-body .mlabel{display:block;margin-bottom:1.6rem}
+  .about-body h2{font-size:clamp(1.7rem,3.6vw,2.8rem);font-weight:400;letter-spacing:-.025em;line-height:1.1;max-width:18ch;margin-bottom:1.4rem}
+  .about-body p{color:var(--muted);font-size:1.02rem;line-height:1.65;max-width:50ch;margin-bottom:1rem}
+  .about-body p strong{color:var(--text);font-weight:500}
+  .about-cta{margin-top:1.6rem}
+
+  /* ---------- FAQ ---------- */
+  .faq{padding-block:clamp(70px,10vh,130px);border-top:1px solid var(--line)}
+  .faq h2{font-size:clamp(2.2rem,6vw,4rem);font-weight:500;letter-spacing:-.04em;margin-bottom:clamp(32px,5vh,56px)}
+  .acc{border-top:1px solid var(--line)}
+  .acc-item{border-bottom:1px solid var(--line)}
+  .acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:none;border:0;cursor:pointer;color:var(--text);text-align:left;font-family:var(--sans);font-size:clamp(1.05rem,2.2vw,1.4rem);font-weight:400;letter-spacing:-.015em;padding:clamp(20px,3vw,30px) 0}
+  .acc-q .sign{font-family:var(--mono);font-size:1.1rem;color:var(--muted);transition:transform .35s var(--ease),color .3s;flex:none}
+  .acc-item.open .acc-q .sign{transform:rotate(45deg);color:var(--text)}
+  .acc-a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
+  .acc-a p{color:var(--muted);font-size:1rem;line-height:1.6;max-width:60ch;padding-bottom:clamp(20px,3vw,28px)}
+
+  /* ---------- CONTACT ---------- */
+  .contact{padding-block:clamp(90px,15vh,200px);border-top:1px solid var(--line);text-align:center}
+  .contact .mlabel{display:block;margin-bottom:2rem}
+  .contact h2{font-size:clamp(3rem,14vw,11rem);font-weight:500;line-height:.86;letter-spacing:-.05em;margin-bottom:1.6rem}
+  .contact .mail{display:inline-block;font-family:var(--mono);font-size:clamp(.95rem,2vw,1.3rem);border-bottom:1px solid var(--line-2);padding-bottom:.25em;transition:border-color .3s}
+  .contact .mail:hover{border-color:var(--text)}
+  .contact .socials{display:flex;gap:1.6rem;justify-content:center;margin-top:2.6rem;flex-wrap:wrap;font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+  .contact .socials a{color:var(--muted);transition:.25s}
+  .contact .socials a:hover{color:var(--text)}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding-block:28px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+  .foot a:hover{color:var(--text)}
+  .foot .mid{color:var(--muted)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--text);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<header id="top">
+  <div class="wrap nav">
+    <a href="#top" class="brand"><span class="mark"></span>Jade<sup>®</sup></a>
+    <nav class="nav-links" aria-label="Navigation">
+      <a href="#work">Projets</a>
+      <a href="#about">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mclose" id="menuClose">Fermer ✕</button>
+  <a href="#work">Projets</a>
+  <a href="#about">À propos</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ====================== HERO ====================== -->
+<section class="hero">
+  <!-- image plein écran animée -->
+  <div class="hero-bg" id="heroBg"></div>
+
+  <!-- texte -->
+  <div class="wrap hero-inner">
+    <!-- ÉDITABLE -->
+    <p class="hero-tag" id="htag"><span class="paren">(</span> Directrice Artistique · Paris <span class="paren">)</span></p>
+    <h1 id="hname">
+      <span>Jade</span>
+      <span class="last">Pacini<sup style="font-size:.22em;font-weight:400;vertical-align:super;color:rgba(239,238,236,.4)">®</sup></span>
+    </h1>
+    <p class="hero-sub" id="hsub">Directrice Artistique Senior&nbsp;· Motion Design &amp; IA Générative&nbsp;· No-Code Product Builder</p>
+    <div class="hero-cta" id="hcta"><a href="#work" class="brk">Voir les projets</a></div>
+  </div>
+
+  <div class="scroll-cue" id="scrollCue">Défiler ↓</div>
+</section>
+
+<!-- featured sous le bandeau -->
+<div class="hero-below">
+  <div class="wrap">
+    <div class="featured" id="featured"></div>
+  </div>
+</div>
+
+<!-- ====================== INTRO ====================== -->
+<section class="wrap intro">
+  <!-- ÉDITABLE -->
+  <span class="mlabel"><span class="paren">(</span> Jade® — direction artistique, Paris, depuis 2015 <span class="paren">)</span></span>
+  <h2>J'accompagne les marques et les équipes créatives qui font du design <em>un avantage, pas une finition.</em></h2>
+</section>
+
+<!-- ====================== SERVICES ====================== -->
+<section class="services">
+  <div class="wrap">
+    <div class="sec-top"><span class="mlabel">Services</span><span class="mlabel"><span class="paren">(</span> 05 <span class="paren">)</span></span></div>
+    <!-- ÉDITABLE -->
+    <div class="svc-row" data-hue="12"><span class="num">01</span><h3>Direction artistique</h3><span class="desc">Concepts de campagne, identité visuelle et déclinaisons cohérentes.</span></div>
+    <div class="svc-row" data-hue="280"><span class="num">02</span><h3>Branding</h3><span class="desc">Systèmes de marque, logos et chartes pensés pour durer.</span></div>
+    <div class="svc-row" data-hue="32"><span class="num">03</span><h3>Motion design</h3><span class="desc">Vidéos, animations et formats sociaux qui donnent du rythme.</span></div>
+    <div class="svc-row" data-hue="200"><span class="num">04</span><h3>IA générative</h3><span class="desc">Midjourney, Runway, no-code — des workflows plus rapides.</span></div>
+    <div class="svc-row" data-hue="150"><span class="num">05</span><h3>E-commerce</h3><span class="desc">Amazon A+, Brand Stores et vidéos produit qui convertissent.</span></div>
+  </div>
+  <div class="svc-preview" id="svcPreview"><div class="ph" style="position:absolute;inset:0;background-size:cover;background-position:center"></div></div>
+</section>
+
+<!-- ====================== STATS ====================== -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-head">
+      <h2>Dix ans de craft, aujourd'hui augmentés par l'IA.</h2>
+      <a href="#about" class="brk">À propos</a>
+    </div>
+    <div class="stat-grid">
+      <!-- ÉDITABLE : data-target -->
+      <div class="stat reveal"><div class="stat-n"><span class="count" data-target="10">0</span><span class="plus">+</span></div><p>Années d'expérience en direction artistique.</p></div>
+      <div class="stat reveal"><div class="stat-n"><span class="count" data-target="50">0</span><span class="plus">+</span></div><p>Projets livrés pour des marques et agences.</p></div>
+      <div class="stat reveal"><div class="stat-n"><span class="count" data-target="8">0</span><span class="plus">+</span></div><p>Marques accompagnées, du lancement à la croissance.</p></div>
+      <div class="stat reveal"><div class="stat-n"><span class="count" data-target="15">0</span><span class="plus">+</span></div><p>Outils IA &amp; no-code maîtrisés en production.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== WORK ====================== -->
+<section id="work" class="work">
+  <div class="wrap">
+    <div class="work-head">
+      <h2>Projets</h2>
+      <div class="bigcount"><span class="paren">(</span><span id="cnt">12</span><span class="paren">)</span></div>
+    </div>
+    <p class="work-intro">Une sélection de réalisations en direction artistique, motion, e-commerce et branding.</p>
+    <div class="filters" id="filters"></div>
+    <div class="work-grid" id="workGrid"></div>
+  </div>
+</section>
+
+<!-- ====================== ABOUT ====================== -->
+<section id="about" class="about">
+  <div class="wrap about-grid">
+    <div class="portrait reveal"><span class="ph-l">./portrait.jpg</span></div>
+    <div class="about-body reveal">
+      <!-- ÉDITABLE -->
+      <span class="mlabel"><span class="paren">(</span> À propos — Est. 2015 <span class="paren">)</span></span>
+      <h2>Jade, directrice artistique basée à Paris.</h2>
+      <p>J'ai construit mon œil en agence (<strong>Publicis, Dentsu</strong>) et en freelance, du <strong>motion design</strong> au contenu <strong>e-commerce</strong>, en passant par le packaging et le branding.</p>
+      <p>Certifiée niveau 6 en <strong>IA générative &amp; no-code</strong>, je développe des workflows qui rendent la production plus rapide, sans rien céder sur l'exigence.</p>
+      <div class="about-cta"><a href="#contact" class="brk">Travaillons ensemble</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== FAQ ====================== -->
+<section class="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <div class="acc" id="acc">
+      <!-- ÉDITABLE -->
+      <div class="acc-item"><button class="acc-q">Quels services proposes-tu ?<span class="sign">+</span></button><div class="acc-a"><p>Direction artistique, branding, motion design, contenu e-commerce et accompagnement sur les outils d'IA générative et no-code.</p></div></div>
+      <div class="acc-item"><button class="acc-q">Comment se déroule un projet ?<span class="sign">+</span></button><div class="acc-a"><p>On cadre ensemble l'objectif et les références, je propose une direction, puis j'itère jusqu'à la livraison des fichiers finaux prêts à l'emploi.</p></div></div>
+      <div class="acc-item"><button class="acc-q">Combien de temps prend un projet ?<span class="sign">+</span></button><div class="acc-a"><p>De quelques jours pour un format court à plusieurs semaines pour une identité complète. Le planning est posé dès le départ.</p></div></div>
+      <div class="acc-item"><button class="acc-q">Travailles-tu avec des startups ?<span class="sign">+</span></button><div class="acc-a"><p>Oui. J'aime les projets early-stage où la direction artistique fait la différence dès le lancement.</p></div></div>
+      <div class="acc-item"><button class="acc-q">Peux-tu t'intégrer à une équipe existante ?<span class="sign">+</span></button><div class="acc-a"><p>Tout à fait — en renfort d'une équipe créative, marketing ou produit, à Paris ou à distance.</p></div></div>
+      <div class="acc-item"><button class="acc-q">Comment démarrer ?<span class="sign">+</span></button><div class="acc-a"><p>Un email avec quelques lignes sur ton projet suffit. On fixe un échange, et on part de là.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== CONTACT ====================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <span class="mlabel"><span class="paren">(</span> Travaillons ensemble <span class="paren">)</span></span>
+    <h2>Parlons-en.</h2>
+    <!-- ÉDITABLE -->
+    <a href="mailto:bonjour@jade.studio" class="mail">bonjour@jade.studio</a>
+    <div class="socials">
+      <a href="#" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="#" target="_blank" rel="noopener">Behance ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>Jade® — Paris</span>
+    <a href="#top" class="mid">Retour en haut ↑</a>
+    <span>©<span id="year"></span></span>
+  </div>
+</footer>
+
+<script>
+/* --- HERO ANIMATION --- */
+(function(){
+  const bg=document.getElementById('heroBg');
+  const els=[
+    document.getElementById('htag'),
+    document.getElementById('hname'),
+    document.getElementById('hsub'),
+    document.getElementById('hcta'),
+    document.getElementById('scrollCue'),
+  ];
+  // lance dès que la page est prête
+  function fire(){
+    bg.classList.add('loaded');
+    els.forEach(el=>el&&el.classList.add('anim'));
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fire);}
+  else{requestAnimationFrame(fire);}
+})();
+/* =================================================================
+   DONNÉES — chargées depuis le CMS (fichiers JSON dans _data/)
+   En local, si fetch échoue, un tableau de démo s'affiche.
+================================================================= */
+const CATEGORIES = {
+  motion:    {label:"Motion",    hue:32 },
+  ecommerce: {label:"E-commerce",hue:200},
+  branding:  {label:"Branding",  hue:280},
+  packaging: {label:"Packaging", hue:150},
+  web:       {label:"Web",       hue:220},
+  edition:   {label:"Édition",   hue:12 },
+};
+
+/* Projets de démo affichés si le CMS n'a pas encore de données */
+const DEMO = [
+  {title:"PAIC — Spot motion",       client:"Henkel",       year:"2024",cat:"motion",    img:"",video:"",featured:true },
+  {title:"Brand Store",              client:"Acer",         year:"2023",cat:"ecommerce", img:"",video:"",featured:true },
+  {title:"Contenu A+ Premium",       client:"Acer",         year:"2023",cat:"ecommerce", img:"",video:"",featured:true },
+  {title:"Identité visuelle",        client:"Studio ALIAS", year:"2024",cat:"branding",  img:"",video:"",featured:false},
+  {title:"Sponsored Brand Video",    client:"Marque B.",    year:"2023",cat:"motion",    img:"",video:"",featured:false},
+  {title:"Refonte packaging",        client:"Marque C.",    year:"2022",cat:"packaging", img:"",video:"",featured:false},
+  {title:"Direction artistique web", client:"Projet perso", year:"2025",cat:"web",       img:"",video:"",featured:false},
+  {title:"Campagne print",           client:"Marque D.",    year:"2022",cat:"edition",   img:"",video:"",featured:false},
+  {title:"Stories animées",          client:"Projet perso", year:"2025",cat:"motion",    img:"",video:"",featured:false},
+  {title:"Système de marque",        client:"Marque E.",    year:"2024",cat:"branding",  img:"",video:"",featured:false},
+  {title:"Visuels produit",          client:"Marque F.",    year:"2023",cat:"ecommerce", img:"",video:"",featured:false},
+  {title:"Affiche & édition",        client:"Projet perso", year:"2024",cat:"edition",   img:"",video:"",featured:false},
+];
+
+const slug=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+const pad=n=>String(n).padStart(2,"0");
+function phBg(h){return `radial-gradient(120% 90% at 75% 18%,hsla(${h},48%,52%,.42),transparent 55%),radial-gradient(80% 70% at 12% 92%,hsla(${(h+45)%360},42%,42%,.34),transparent 60%),linear-gradient(160deg,hsl(${h},20%,12%),#0A0A0A)`;}
+function mediaHTML(p,c){
+  if(p.video) return `<video class="ph" autoplay muted loop playsinline style="object-fit:cover;width:100%;height:100%"><source src="${p.video}" type="video/mp4"></video>`;
+  const s=p.img?`background-image:url('${p.img}')`:`background:${phBg(c.hue)}`;
+  return `<div class="ph" style="${s}"></div>`;
+}
+
+/* ── Chargement des projets depuis le CMS ── */
+async function loadProjets(){
+  try{
+    /* Le CMS génère un fichier JSON par projet dans _data/projets/ */
+    /* On liste via un manifest généré automatiquement par Netlify   */
+    const manifest = await fetch('_data/projets/manifest.json').then(r=>r.ok?r.json():null);
+    if(manifest && manifest.length){
+      const all = await Promise.all(
+        manifest.map(f=>fetch('_data/projets/'+f).then(r=>r.ok?r.json():null))
+      );
+      return all.filter(Boolean).sort((a,b)=>(a.ordre||99)-(b.ordre||99));
+    }
+  } catch(e){}
+  /* Fallback : données de démo */
+  return DEMO;
+}
+
+/* ── Chargement des settings ── */
+async function loadSettings(){
+  try{
+    const s=await fetch('_data/settings.json').then(r=>r.ok?r.json():null);
+    return s||{};
+  } catch(e){return {};}
+}
+
+/* ── Injection des settings dans le DOM ── */
+function applySettings(s){
+  if(!s) return;
+  const n=document.getElementById('hname');
+  if(n && s.prenom) n.innerHTML=`<span>${s.prenom}</span><span class="last">${s.nom||''}<sup style="font-size:.22em;font-weight:400;vertical-align:super;color:rgba(239,238,236,.4)">®</sup></span>`;
+  const sub=document.getElementById('hsub'); if(sub&&s.soustitre) sub.textContent=s.soustitre;
+  const mail=document.querySelector('.mail'); if(mail&&s.email){mail.href='mailto:'+s.email;mail.textContent=s.email;}
+  const intro=document.querySelector('.intro h2'); if(intro&&s.intro) intro.innerHTML=s.intro.replace(/([^.!?]+[.!?]+\s*)$/,'<em>$1</em>');
+  const bio=document.querySelector('.about-body p'); if(bio&&s.bio) bio.innerHTML=s.bio;
+  const socials=document.querySelectorAll('.socials a');
+  if(s.instagram && socials[0]){socials[0].href=s.instagram;}
+  if(s.linkedin  && socials[1]){socials[1].href=s.linkedin;}
+  if(s.behance   && socials[2]){socials[2].href=s.behance;}
+}
+
+/* ── Hero featured (3 premiers mis en avant) ── */
+function renderFeatured(projets){
+  const featured=document.getElementById('featured');
+  const list=(projets.filter(p=>p.featured).slice(0,3));
+  /* si pas assez de "featured", complète avec les premiers */
+  const fill=projets.filter(p=>!p.featured);
+  while(list.length<3 && fill.length) list.push(fill.shift());
+  list.slice(0,3).forEach(p=>{
+    const c=CATEGORIES[p.cat]||{label:p.cat,hue:30};
+    const a=document.createElement('a'); a.className='feat'; a.href=`projet.html?id=${slug(p.title)}`;
+    a.innerHTML=`<div class="media">${mediaHTML(p,c)}</div><div class="cap"><span class="path">./projets/${slug(p.title)}</span><span>${p.year}</span></div>`;
+    featured.appendChild(a);
+  });
+}
+
+/* ── Grille projets ── */
+const grid=document.getElementById('workGrid');
+const filtersEl=document.getElementById('filters');
+const cntEl=document.getElementById('cnt');
+let ALL_PROJETS=[];
+function render(filter='all'){
+  grid.innerHTML='';
+  const list=ALL_PROJETS.filter(p=>filter==='all'||p.cat===filter);
+  cntEl.textContent=pad(list.length);
+  list.forEach((p,i)=>{
+    const c=CATEGORIES[p.cat]||{label:p.cat,hue:30};
+    const a=document.createElement('a'); a.className='work-item reveal'; a.href=`projet.html?id=${slug(p.title)}`;
+    a.style.transitionDelay=(i%6)*0.05+'s';
+    a.innerHTML=`<div class="work-media">${mediaHTML(p,c)}<span class="corner">${c.label}</span></div>
+      <div class="work-foot"><span class="path">./projets/${slug(p.title)}</span><span class="yr">${p.year}</span></div>
+      <div class="work-title">${p.title} — <span>${p.client}</span></div>`;
+    grid.appendChild(a);
+  });
+  observeReveals();
+}
+function buildFilters(){
+  const used=[...new Set(ALL_PROJETS.map(p=>p.cat))];
+  const make=(k,l)=>{const b=document.createElement('button');b.className='filt'+(k==='all'?' active':'');b.textContent=l;b.onclick=()=>{filtersEl.querySelectorAll('.filt').forEach(c=>c.classList.remove('active'));b.classList.add('active');render(k);};return b;};
+  filtersEl.innerHTML='';
+  filtersEl.appendChild(make('all','Tout'));
+  used.forEach(k=>filtersEl.appendChild(make(k,(CATEGORIES[k]||{label:k}).label)));
+}
+
+/* ── Services hover preview ── */
+const preview=document.getElementById('svcPreview');
+const previewPh=preview.querySelector('.ph');
+let canHover=matchMedia('(hover:hover)').matches&&matchMedia('(min-width:901px)').matches;
+document.querySelectorAll('.svc-row').forEach(row=>{
+  const hue=row.dataset.hue||30;
+  row.addEventListener('mouseenter',()=>{if(!canHover)return;previewPh.style.background=phBg(hue);preview.classList.add('show');});
+  row.addEventListener('mouseleave',()=>preview.classList.remove('show'));
+  row.addEventListener('mousemove',e=>{if(!canHover)return;preview.style.left=e.clientX+'px';preview.style.top=e.clientY+'px';});
+});
+
+/* ── FAQ ── */
+document.querySelectorAll('.acc-item').forEach(item=>{
+  const q=item.querySelector('.acc-q'),a=item.querySelector('.acc-a');
+  q.addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.acc-item').forEach(o=>{o.classList.remove('open');o.querySelector('.acc-a').style.maxHeight=null;});
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+  });
+});
+
+/* ── Compteurs ── */
+function runCounters(){
+  document.querySelectorAll('.count').forEach(el=>{
+    const target=+el.dataset.target;
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=target;return;}
+    const dur=1400,t0=performance.now();
+    (function step(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(e*target);if(p<1)requestAnimationFrame(step);})(t0);
+  });
+}
+
+/* ── Reveal on scroll ── */
+let io;
+function observeReveals(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));return;}
+  io=io||new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal:not(.in)').forEach(e=>io.observe(e));
+}
+new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){runCounters();o.disconnect();}});},{threshold:.4}).observe(document.querySelector('.stats'));
+
+/* ── Nav + menu mobile ── */
+const header=document.querySelector('header');
+addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>40),{passive:true});
+const mBtn=document.getElementById('menuBtn'),mMenu=document.getElementById('mobileMenu'),mClose=document.getElementById('menuClose');
+const toggle=o=>{mMenu.classList.toggle('open',o);mBtn.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';};
+mBtn.onclick=()=>toggle(true);mClose.onclick=()=>toggle(false);
+mMenu.querySelectorAll('a').forEach(a=>a.onclick=()=>toggle(false));
+addEventListener('resize',()=>{canHover=matchMedia('(hover:hover)').matches&&matchMedia('(min-width:901px)').matches;});
+
+/* ── INIT — charge CMS puis affiche ── */
+document.getElementById('year').textContent=new Date().getFullYear();
+Promise.all([loadProjets(), loadSettings()]).then(([projets, settings])=>{
+  ALL_PROJETS=projets;
+  applySettings(settings);
+  renderFeatured(projets);
+  buildFilters();
+  render('all');
+  observeReveals();
+});
+</script>
+</body>
+</html>

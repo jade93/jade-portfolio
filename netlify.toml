@@ -1,0 +1,22 @@
+# ── Configuration Netlify ──────────────────────────────────────
+# Ce fichier dit à Netlify comment servir le site.
+# Tu n'as pas besoin de le modifier.
+
+[build]
+  publish = "."          # tout le dossier est le site
+
+# Active Netlify Identity + Git Gateway (nécessaire pour le CMS)
+[[plugins]]
+  package = "@netlify/plugin-netlify-cms"
+
+# Redirections : /admin redirige vers le panneau CMS
+[[redirects]]
+  from  = "/admin"
+  to    = "/admin/index.html"
+  status = 200
+
+# Cache des images
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
